@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 
 const UserSettings = () => {
@@ -16,7 +18,7 @@ const UserSettings = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // Placeholder for form submission logic
+    console.log(formData);
   };
 
   return (
