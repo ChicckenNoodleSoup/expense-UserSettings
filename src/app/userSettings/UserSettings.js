@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 const UserSettings = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +9,8 @@ const UserSettings = () => {
     lastName: '',
     email: '',
     currentPassword: '',
-    newPassword: ''
+    newPassword: '',
+    description: ''
   });
   const [profilePic, setProfilePic] = useState(null);
 
@@ -19,7 +21,8 @@ const UserSettings = () => {
 
   const handleProfilePicChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setProfilePic(URL.createObjectURL(e.target.files[0]));
+      const imageUrl = URL.createObjectURL(e.target.files[0]);
+      setProfilePic(imageUrl);
     }
   };
 
@@ -29,75 +32,97 @@ const UserSettings = () => {
   };
 
   return (
-    <div className="bg-gray-100 text-gray-900 py-12">
-      <div className="container mx-auto w-full max-w-md bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="p-8">
-          <h2 className="text-center text-2xl font-bold text-gray-700 mb-6">Account Settings</h2>
-          <div className="flex justify-center mb-6">
-            <label className="relative cursor-pointer">
-              <img
-                src={profilePic || "https://via.placeholder.com/150"}
-                alt="Profile"
-                className="w-32 h-32 rounded-full border-4 border-gray-300 object-cover"
-              />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleProfilePicChange}
-                className="hidden"
-              />
-            </label>
-          </div>
+    <div className="bg-teal-950 min-h-screen text-white py-12 flex items-center justify-center relative">
+      {/* Home Button with Link */}
+      <Link href="/" className="absolute top-4 left-4 p-2 rounded-full bg-teal-800 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          className="w-6 h-6 text-white"
+        >
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+      </Link>
+
+      <div className="container mx-auto max-w-4xl bg-white rounded-xl shadow-md overflow-hidden flex">
+        <div className="p-8 w-1/3 flex flex-col items-center bg-teal-800">
+          <img
+            src={profilePic || "https://img.icons8.com/ios-glyphs/90/ffffff/user--v1.png"} // Placeholder icon
+            alt="Profile"
+            className="w-32 h-32 rounded-full border-4 border-white object-cover mb-4"
+          />
+          <label className="relative cursor-pointer text-gray-300">
+            <span>Select a picture</span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProfilePicChange}
+              className="hidden"
+            />
+          </label>
+
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="mt-4 p-2 border rounded focus:outline-none focus:ring focus:border-blue-300 text-gray-700 w-full h-32"
+            placeholder="Tell us about yourself (e.g., I like playing games)"
+          />
+        </div>
+
+        <div className="p-8 w-2/3">
+          <h2 className="text-3xl font-extrabold text-gray-700 mb-8 text-center">Account Settings</h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4 border border-blue-500 p-4 rounded">
-              <label className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+            <div className="mb-4 bg-teal-600 p-4 rounded flex items-center">
+              <label className="block text-white text-lg font-bold w-1/3">First Name</label>
               <input
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
+                className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 text-gray-700"
                 placeholder="First Name"
               />
             </div>
-            <div className="mb-4 border border-green-500 p-4 rounded">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+            <div className="mb-4 bg-teal-600 p-4 rounded flex items-center">
+              <label className="block text-white text-lg font-bold w-1/3">Last Name</label>
               <input
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-green-300 text-gray-700"
+                className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-green-300 text-gray-700"
                 placeholder="Last Name"
               />
             </div>
-            <div className="mb-4 border border-red-500 p-4 rounded">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <div className="mb-4 bg-teal-600 p-4 rounded flex items-center">
+              <label className="block text-white text-lg font-bold w-1/3">Email</label>
               <input
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-red-300 text-gray-700"
+                className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-red-300 text-gray-700"
                 placeholder="Email"
                 type="email"
               />
             </div>
-            <div className="mb-4 border border-yellow-500 p-4 rounded">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Current Password</label>
+            <div className="mb-4 bg-teal-600 p-4 rounded flex items-center">
+              <label className="block text-white text-lg font-bold w-1/3">Current Password</label>
               <input
                 name="currentPassword"
                 value={formData.currentPassword}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-yellow-300 text-gray-700"
+                className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-yellow-300 text-gray-700"
                 placeholder="Current Password"
                 type="password"
               />
             </div>
-            <div className="mb-4 border border-purple-500 p-4 rounded">
-              <label className="block text-gray-700 text-sm font-bold mb-2">New Password</label>
+            <div className="mb-4 bg-teal-600 p-4 rounded flex items-center">
+              <label className="block text-white text-lg font-bold w-1/3">New Password</label>
               <input
                 name="newPassword"
                 value={formData.newPassword}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-purple-300 text-gray-700"
+                className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-purple-300 text-gray-700"
                 placeholder="New Password"
                 type="password"
               />
